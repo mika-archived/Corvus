@@ -110,10 +110,12 @@
     <Compile Include="ArrayHelper.cs" />
     <Compile Include="Clients\NicoLiveRtmpClient.cs" />
     <Compile Include="Clients\DefaultRtmpClient.cs" />
+    <Compile Include="NetConnection.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="RtmpChunk.cs" />
     <Compile Include="RtmpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RtmpDump.cs" />
     <Compile Include="Timestamp.cs" />
     <Compile Include="AudioCodec.cs" />
     <Compile Include="VideoCodec.cs" />

@@ -14,7 +14,6 @@ namespace Corvus.Clients
         public NicoLiveRtmpClient(Uri rtmpUri, string nlPlaypath, string connection) : base(rtmpUri)
         {
             _nlPlaypath = nlPlaypath;
-            Connection = $"S:{connection}";
         }
     }
 }

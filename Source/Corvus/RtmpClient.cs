@@ -9,13 +9,15 @@ namespace Corvus
     /// </summary>
     public abstract class RtmpClient
     {
+        private readonly NetConnection _netConnection;
         private readonly Random _random;
-        protected Packet Packet { get; }
+        protected internal Packet Packet { get; }
 
         protected RtmpClient(Uri rtmpUri)
         {
             Packet = new Packet(rtmpUri);
             _random = new Random();
+            _netConnection = new NetConnection(this);
         }
 
         /// <summary>
@@ -25,6 +27,15 @@ namespace Corvus
         {
             Packet.PrepareAsync();
             Handshake();
+            _netConnection.Connect();
+        }
+
+        /// <summary>
+        ///     接続を閉じます。
+        /// </summary>
+        public void Disconnect()
+        {
+            Packet.ShutdownAsync();
         }
 
         /// <summary>
@@ -32,17 +43,15 @@ namespace Corvus
         /// </summary>
         private void Handshake()
         {
-            // C0
-            Packet.SendAsync(new byte[] {0x03});
-
-            // C1
-            var c1 = new byte[1536];
+            // C0+C1
+            var c0 = new byte[1537];
+            c0[0] = 0x03;
             var time = Timestamp.GetNow();
-            ArrayHelper.Concat(c1, time); // time (4 bytes)
-            ArrayHelper.Fill(c1, 0x00, 4, 4); // 0x00 (4 bytes)
-            for (var i = 8; i < 1536; i++) // random (1528 bytes)
-                c1[i] = (byte) _random.Next(0x00, 0xff);
-            Packet.SendAsync(c1);
+            ArrayHelper.Concat(c0, time, 1); // time (4 bytes)
+            ArrayHelper.Fill(c0, 0x00, 4, 5); // 0x00 (4 bytes)
+            for (var i = 9; i < 1537; i++) // random (1528 bytes)
+                c0[i] = (byte) _random.Next(0x00, 0xff);
+            Packet.SendAsync(c0);
 
             // S0
             var s0 = Packet.ReceiveAsync(1);
@@ -51,18 +60,16 @@ namespace Corvus
 
             // S1
             var s1 = Packet.ReceiveAsync(1536);
-            if (!c1.Skip(8).ToArray().SequenceEqual(s1.Skip(8).ToArray()))
-                Debug.WriteLine("WARN: C1 Random and S1 Random does not match.");
 
             // C2
-            var c2 = new byte[1536];
-            ArrayHelper.Concat(c2, time); // time (4 bytes)
-            ArrayHelper.Concat(c2, Timestamp.GetNow(), 4); // time2 (4 bytes)
-            ArrayHelper.Concat(c2, ArrayHelper.Take(s1, 8, 1528), 8); // random echo (1528 bytes)
-            Packet.SendAsync(c2);
+            ArrayHelper.Concat(s1, Timestamp.GetNow(), 4); // time2 (4 bytes)
+            Packet.SendAsync(s1);
 
+            // Task.Delay(TimeSpan.FromMilliseconds(1000));
             // S2
-            Packet.ReceiveAsync(1536);
+            var s2 = Packet.ReceiveAsync(1536);
+            if (!c0.Skip(9).ToArray().SequenceEqual(s2.Skip(8).ToArray()))
+                Debug.WriteLine("WARN: C1 Random and S2 Random does not match.");
         }
 
         #region Properties

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -39,6 +40,14 @@ namespace Corvus
         }
 
         /// <summary>
+        ///     接続を閉じます。
+        /// </summary>
+        public void ShutdownAsync()
+        {
+            _socket.Shutdown(SocketShutdown.Both);
+        }
+
+        /// <summary>
         ///     payload を送信します。
         /// </summary>
         /// <param name="payload"></param>
@@ -60,10 +69,12 @@ namespace Corvus
         /// <summary>
         ///     n バイト受信します。
         /// </summary>
-        /// <param name="n"></param>
+        /// <param name="n">-1 を指定すると、すべて読み取ります。</param>
         /// <returns></returns>
         public byte[] ReceiveAsync(int n)
         {
+            if (n == -1)
+                return ReceiveAllAsync();
             var bytes = new byte[n];
             var socketArgs = new SocketAsyncEventArgs {RemoteEndPoint = new DnsEndPoint(_uri.Host, _uri.Port)};
             socketArgs.SetBuffer(bytes, 0, n);
@@ -80,6 +91,24 @@ namespace Corvus
             _waiter.WaitOne((int) Timeout.TotalMilliseconds);
 
             return bytes;
+        }
+
+        private byte[] ReceiveAllAsync()
+        {
+            var bytes = new List<byte>();
+            var socketArgs = new SocketAsyncEventArgs {RemoteEndPoint = new DnsEndPoint(_uri.Host, _uri.Port)};
+            socketArgs.Completed += (sender, e) =>
+            {
+                if (e.SocketError != SocketError.Success)
+                    throw new Exception($"Error occured: {e.SocketError.ToString()}");
+                bytes.AddRange(e.Buffer);
+                _waiter.Set();
+            };
+            _waiter.Reset();
+            _socket.ReceiveAsync(socketArgs);
+            _waiter.WaitOne((int) Timeout.TotalMilliseconds);
+
+            return bytes.ToArray();
         }
     }
 }
