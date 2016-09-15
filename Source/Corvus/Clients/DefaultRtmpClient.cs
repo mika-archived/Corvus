@@ -6,7 +6,7 @@ namespace Corvus.Clients
     {
         /// <summary>
         /// </summary>
-        /// <param name="rtmpUri">有効な RTMP URI</param>
+        /// <param name="rtmpUri">RTMP URI</param>
         public DefaultRtmpClient(Uri rtmpUri) : base(rtmpUri) {}
     }
 }

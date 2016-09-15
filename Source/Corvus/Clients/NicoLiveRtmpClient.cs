@@ -8,11 +8,13 @@ namespace Corvus.Clients
 
         /// <summary>
         /// </summary>
-        /// <param name="rtmpUri">有効な RTMP URI</param>
-        /// <param name="nlPlaypath">ニコニコ生放送 Playpath</param>
-        public NicoLiveRtmpClient(Uri rtmpUri, string nlPlaypath) : base(rtmpUri)
+        /// <param name="rtmpUri">RTMP URI</param>
+        /// <param name="nlPlaypath">Stream Contents</param>
+        /// <param name="connection">Ticket</param>
+        public NicoLiveRtmpClient(Uri rtmpUri, string nlPlaypath, string connection) : base(rtmpUri)
         {
             _nlPlaypath = nlPlaypath;
+            Connection = $"S:{connection}";
         }
     }
 }

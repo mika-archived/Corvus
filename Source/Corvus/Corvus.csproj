@@ -111,10 +111,19 @@
     <Compile Include="Clients\NicoLiveRtmpClient.cs" />
     <Compile Include="Clients\DefaultRtmpClient.cs" />
     <Compile Include="Packet.cs" />
+    <Compile Include="RtmpChunk.cs" />
     <Compile Include="RtmpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Timestamp.cs" />
+    <Compile Include="AudioCodec.cs" />
+    <Compile Include="VideoCodec.cs" />
     <EmbeddedResource Include="Properties\Corvus.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Corvus.Amf\Corvus.Amf.csproj">
+      <Project>{b4ef8b5e-ebfe-41a2-a053-c7c454e2de2f}</Project>
+      <Name>Corvus.Amf</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
