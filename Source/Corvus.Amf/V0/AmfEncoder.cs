@@ -33,9 +33,9 @@ namespace Corvus.Amf.V0
         // [Marker] [Value - 8 bytes]
         public static byte[] EncodeNumber64(double value)
         {
-            var bytes = new byte[9];
-            bytes[0] = (byte) AmfMarker.Number;
-            return bytes;
+            var bytes = new List<byte> {(byte) AmfMarker.Number};
+            bytes.AddRange(BitConverter.GetBytes(value).Reverse());
+            return bytes.ToArray();
         }
 
         // Boolean

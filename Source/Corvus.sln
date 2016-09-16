@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corvus.Amf", "Corvus.Amf\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corvus", "Corvus\Corvus.csproj", "{4CC75801-9F1D-4C06-AA90-34F7F24209FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corvus.Amf.Test", "Corvus.Amf.Test\Corvus.Amf.Test.csproj", "{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,26 @@ Global
 		{4CC75801-9F1D-4C06-AA90-34F7F24209FF}.Release|x64.Build.0 = Release|Any CPU
 		{4CC75801-9F1D-4C06-AA90-34F7F24209FF}.Release|x86.ActiveCfg = Release|Any CPU
 		{4CC75801-9F1D-4C06-AA90-34F7F24209FF}.Release|x86.Build.0 = Release|Any CPU
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|ARM.ActiveCfg = Debug|ARM
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|ARM.Build.0 = Debug|ARM
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|ARM.Deploy.0 = Debug|ARM
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|x64.ActiveCfg = Debug|x64
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|x64.Build.0 = Debug|x64
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|x64.Deploy.0 = Debug|x64
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|x86.ActiveCfg = Debug|x86
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|x86.Build.0 = Debug|x86
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Debug|x86.Deploy.0 = Debug|x86
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|Any CPU.ActiveCfg = Release|x86
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|ARM.ActiveCfg = Release|ARM
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|ARM.Build.0 = Release|ARM
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|ARM.Deploy.0 = Release|ARM
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|x64.ActiveCfg = Release|x64
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|x64.Build.0 = Release|x64
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|x64.Deploy.0 = Release|x64
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|x86.ActiveCfg = Release|x86
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|x86.Build.0 = Release|x86
+		{3587E426-FBBC-41B7-9D2B-87EF521C9CAB}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
