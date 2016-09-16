@@ -17,14 +17,14 @@ namespace Corvus.Amf.V0
 
         // Number (16 bit)
         // [Value - 2 bytes]
-        private static byte[] EncodeNumber16(short value)
+        internal static byte[] EncodeNumber16(short value)
         {
             return BitConverter.GetBytes(value).Reverse().ToArray();
         }
 
         // Number (32 bit)
         // [Value - 4 bytes]
-        private static byte[] EncodeNumber32(int value)
+        internal static byte[] EncodeNumber32(int value)
         {
             return BitConverter.GetBytes(value).Reverse().ToArray();
         }
@@ -82,9 +82,8 @@ namespace Corvus.Amf.V0
         // [Marker] [Properties ...] [Marker]
         public static byte[] EncodeObject(AmfObject value)
         {
-            var bytes = new List<byte> {(byte) AmfMarker.Object};
+            var bytes = new List<byte>();
             bytes.AddRange(value.GetBytes());
-            bytes.Add((byte) AmfMarker.ObjectEnd);
             return bytes.ToArray();
         }
 
@@ -92,7 +91,7 @@ namespace Corvus.Amf.V0
         // [Marker] [Value - 2 bytes]
         public static byte[] EncodeReference(AmfReference value)
         {
-            var bytes = new List<byte> {(byte) AmfMarker.Reference};
+            var bytes = new List<byte>();
             bytes.AddRange(value.GetBytes());
             return bytes.ToArray();
         }
@@ -101,9 +100,8 @@ namespace Corvus.Amf.V0
         // [Marker] [Count - 4 bytes] [Properties ...]
         public static byte[] EncodeEcmaArray(AmfEcmaArray value)
         {
-            var bytes = new List<byte> {(byte) AmfMarker.EcmaArray};
+            var bytes = new List<byte>();
             bytes.AddRange(value.GetBytes());
-            bytes.Add((byte) AmfMarker.ObjectEnd);
             return bytes.ToArray();
         }
 
@@ -111,9 +109,8 @@ namespace Corvus.Amf.V0
         // [Marker]
         public static byte[] EncodeStrictArray(AmfStrictArray value)
         {
-            var bytes = new List<byte> {(byte) AmfMarker.StrictArray};
+            var bytes = new List<byte>();
             bytes.AddRange(value.GetBytes());
-            bytes.Add((byte) AmfMarker.ObjectEnd);
             return bytes.ToArray();
         }
 
@@ -143,9 +140,8 @@ namespace Corvus.Amf.V0
         // [Marker] [ClassName] [Properties...] [Marker]
         public static byte[] EncodeTypedObject(AmfTypedObject value)
         {
-            var bytes = new List<byte> {(byte) AmfMarker.Object};
+            var bytes = new List<byte>();
             bytes.AddRange(value.GetBytes());
-            bytes.Add((byte) AmfMarker.ObjectEnd);
             return bytes.ToArray();
         }
 
@@ -153,7 +149,8 @@ namespace Corvus.Amf.V0
         public static byte[] Encode(object value)
         {
             double d;
-            if (double.TryParse(value.ToString(), NumberStyles.Any, null, out d))
+            var flag = NumberStyles.Integer | NumberStyles.Float;
+            if (double.TryParse(value.ToString(), flag, null, out d))
                 return EncodeNumber64(double.Parse(value.ToString()));
             if (value is bool)
                 return EncodeBoolean((bool) value);
@@ -173,6 +170,8 @@ namespace Corvus.Amf.V0
                 return EncodeXmlDocument((XmlReader) value);
             if (value is AmfTypedObject)
                 return EncodeTypedObject((AmfTypedObject) value);
+            if (value is AmfData)
+                return Encode(((AmfData) value).Value);
 
             throw new NotSupportedException($"Not supported type: {value.GetType().AssemblyQualifiedName}");
         }

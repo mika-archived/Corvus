@@ -1,9 +1,17 @@
 ﻿namespace Corvus.Amf.V0
 {
-    internal class AmfProperty
+    public class AmfProperty
     {
         public string Name { get; }
 
-        public object Value { get; }
+        public AmfData Value { get; }
+
+        public AmfProperty(string name, AmfData value)
+        {
+            Name = name;
+            Value = value;
+        }
+
+        public byte[] GetBytes() => AmfEncoder.EncodeProperty(this);
     }
 }

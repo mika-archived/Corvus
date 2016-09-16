@@ -1,14 +1,26 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Corvus.Amf.V0
 {
-    public class AmfStrictArray
+    public class AmfStrictArray : AmfData<List<AmfData>>
     {
-        public int Length => 1;
+        public int Length => Value.Count;
+
+        public override AmfMarker Marker => AmfMarker.StrictArray;
+
+        public AmfStrictArray()
+        {
+            Value = new List<AmfData>();
+        }
 
         public byte[] GetBytes()
         {
-            throw new NotImplementedException();
+            var bytes = new List<byte> {(byte) AmfMarker.StrictArray};
+            bytes.AddRange(AmfEncoder.EncodeNumber32(Length - 1));
+            foreach (var value in Value)
+                bytes.AddRange(AmfEncoder.Encode(value.Value));
+            bytes.AddRange(new AmfObjectEnd().GetBytes());
+            return bytes.ToArray();
         }
     }
 }

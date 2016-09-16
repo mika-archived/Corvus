@@ -1,12 +1,16 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace Corvus.Amf.V0
 {
-    public class AmfReference
+    public class AmfReference : AmfData<short>
     {
+        public override AmfMarker Marker => AmfMarker.Reference;
+
         public byte[] GetBytes()
         {
-            throw new NotImplementedException();
+            var bytes = new List<byte> {(byte) AmfMarker.Reference};
+            bytes.AddRange(AmfEncoder.EncodeNumber16(Value));
+            return bytes.ToArray();
         }
     }
 }

@@ -114,11 +114,16 @@
     <Compile Include="V0\AmfEcmaArray.cs" />
     <Compile Include="V0\AmfEncoder.cs" />
     <Compile Include="V0\AmfMarker.cs" />
+    <Compile Include="V0\AmfNull.cs" />
     <Compile Include="V0\AmfObject.cs" />
+    <Compile Include="V0\AmfObjectEnd.cs" />
     <Compile Include="V0\AmfProperty.cs" />
     <Compile Include="V0\AmfReference.cs" />
     <Compile Include="V0\AmfStrictArray.cs" />
     <Compile Include="V0\AmfTypedObject.cs" />
+    <Compile Include="V0\AmfUndefined.cs" />
+    <Compile Include="V0\AmfUnsupported.cs" />
+    <Compile Include="V0\AmfValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Corvus.Amf.rd.xml" />
