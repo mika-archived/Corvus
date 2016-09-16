@@ -1,4 +1,4 @@
-﻿namespace Corvus.Amf.V0
+﻿namespace Corvus.Amf.v0
 {
     public class AmfProperty
     {

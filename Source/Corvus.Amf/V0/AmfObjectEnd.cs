@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Corvus.Amf.V0
+namespace Corvus.Amf.v0
 {
     internal class AmfObjectEnd : AmfData<short>
     {

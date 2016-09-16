@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Corvus.Amf.V0
+namespace Corvus.Amf.v0
 {
     /// <summary>
     ///     値を byte[] に変換します。

@@ -108,22 +108,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="V0\AmfData.cs" />
-    <Compile Include="V0\AmfData`1.cs" />
-    <Compile Include="V0\AmfDecoder.cs" />
-    <Compile Include="V0\AmfEcmaArray.cs" />
-    <Compile Include="V0\AmfEncoder.cs" />
-    <Compile Include="V0\AmfMarker.cs" />
-    <Compile Include="V0\AmfNull.cs" />
-    <Compile Include="V0\AmfObject.cs" />
-    <Compile Include="V0\AmfObjectEnd.cs" />
-    <Compile Include="V0\AmfProperty.cs" />
-    <Compile Include="V0\AmfReference.cs" />
-    <Compile Include="V0\AmfStrictArray.cs" />
-    <Compile Include="V0\AmfTypedObject.cs" />
-    <Compile Include="V0\AmfUndefined.cs" />
-    <Compile Include="V0\AmfUnsupported.cs" />
-    <Compile Include="V0\AmfValue.cs" />
+    <Compile Include="v0\AmfData.cs" />
+    <Compile Include="v0\AmfData`1.cs" />
+    <Compile Include="v0\AmfDecoder.cs" />
+    <Compile Include="v0\AmfEcmaArray.cs" />
+    <Compile Include="v0\AmfEncoder.cs" />
+    <Compile Include="v0\AmfMarker.cs" />
+    <Compile Include="v0\AmfNull.cs" />
+    <Compile Include="v0\AmfObject.cs" />
+    <Compile Include="v0\AmfObjectEnd.cs" />
+    <Compile Include="v0\AmfProperty.cs" />
+    <Compile Include="v0\AmfReference.cs" />
+    <Compile Include="v0\AmfStrictArray.cs" />
+    <Compile Include="v0\AmfTypedObject.cs" />
+    <Compile Include="v0\AmfUndefined.cs" />
+    <Compile Include="v0\AmfUnsupported.cs" />
+    <Compile Include="v0\AmfValue.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Corvus.Amf.rd.xml" />

@@ -1,4 +1,6 @@
-﻿namespace Corvus.Amf.V0
+﻿using Corvus.Amf.v0;
+
+namespace Corvus.Amf.v0
 {
     public abstract class AmfData
     {

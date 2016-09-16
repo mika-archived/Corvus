@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace Corvus.Amf.V0
+namespace Corvus.Amf.v0
 {
     public class AmfValue<T> : AmfData<T>
     {
