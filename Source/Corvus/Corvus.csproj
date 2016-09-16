@@ -103,27 +103,26 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <!-- A reference to the entire .NET Framework is automatically included -->
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayHelper.cs" />
-    <Compile Include="Clients\NicoLiveRtmpClient.cs" />
+    <Compile Include="AudioCodec.cs" />
     <Compile Include="Clients\DefaultRtmpClient.cs" />
+    <Compile Include="Clients\NicoLiveRtmpClient.cs" />
     <Compile Include="NetConnection.cs" />
     <Compile Include="Packet.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RtmpChunk.cs" />
     <Compile Include="RtmpClient.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RtmpDump.cs" />
     <Compile Include="Timestamp.cs" />
-    <Compile Include="AudioCodec.cs" />
     <Compile Include="VideoCodec.cs" />
-    <EmbeddedResource Include="Properties\Corvus.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Corvus.Amf\Corvus.Amf.csproj">
-      <Project>{b4ef8b5e-ebfe-41a2-a053-c7c454e2de2f}</Project>
+      <Project>{c3142103-fc2f-4af6-a47c-dec97ce2a7d6}</Project>
       <Name>Corvus.Amf</Name>
     </ProjectReference>
   </ItemGroup>

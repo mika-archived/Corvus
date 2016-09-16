@@ -103,12 +103,19 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <!-- A reference to the entire .NET Framework is automatically included -->
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Corvus.Amf.rd.xml" />
+    <Compile Include="V0\AmfEcmaArray.cs" />
+    <Compile Include="V0\AmfEncoder.cs" />
+    <Compile Include="V0\AmfMarker.cs" />
+    <Compile Include="V0\AmfObject.cs" />
+    <Compile Include="V0\AmfProperty.cs" />
+    <Compile Include="V0\AmfReference.cs" />
+    <Compile Include="V0\AmfStrictArray.cs" />
+    <Compile Include="V0\AmfTypedObject.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

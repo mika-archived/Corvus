@@ -1,2 +1,2 @@
 # Corvus
-"Corvus" is RTMP client library for Universal Windows.
+"Corvus" is RTMP client library written in C#.

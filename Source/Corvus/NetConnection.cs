@@ -12,9 +12,6 @@
         /// <summary>
         ///     NetConnection.connect を行います。
         /// </summary>
-        public void Connect()
-        {
-            _rtmpClient.Packet.PrepareAsync();
-        }
+        public void Connect() {}
     }
 }
