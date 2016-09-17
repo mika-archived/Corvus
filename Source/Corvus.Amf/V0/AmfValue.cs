@@ -19,5 +19,7 @@ namespace Corvus.Amf.v0
             }
             throw new NotSupportedException();
         }
+
+        public override byte[] GetBytes() => AmfEncoder.Encode(Value);
     }
 }

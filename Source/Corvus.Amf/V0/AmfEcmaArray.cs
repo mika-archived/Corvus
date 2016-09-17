@@ -13,7 +13,7 @@ namespace Corvus.Amf.v0
             Value = new List<AmfProperty>();
         }
 
-        public byte[] GetBytes()
+        public override byte[] GetBytes()
         {
             var bytes = new List<byte> {(byte) AmfMarker.EcmaArray};
             bytes.AddRange(AmfEncoder.EncodeNumber32(Length - 1));

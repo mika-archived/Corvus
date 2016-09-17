@@ -11,7 +11,7 @@ namespace Corvus.Amf.v0
             Value = new List<AmfProperty>();
         }
 
-        public byte[] GetBytes()
+        public override byte[] GetBytes()
         {
             var bytes = new List<byte> {(byte) AmfMarker.Object};
             foreach (var value in Value)

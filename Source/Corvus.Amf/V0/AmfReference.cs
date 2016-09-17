@@ -6,7 +6,7 @@ namespace Corvus.Amf.v0
     {
         public override AmfMarker Marker => AmfMarker.Reference;
 
-        public byte[] GetBytes()
+        public override byte[] GetBytes()
         {
             var bytes = new List<byte> {(byte) AmfMarker.Reference};
             bytes.AddRange(AmfEncoder.EncodeNumber16(Value));

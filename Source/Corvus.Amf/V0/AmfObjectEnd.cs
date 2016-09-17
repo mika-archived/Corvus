@@ -11,7 +11,7 @@ namespace Corvus.Amf.v0
             Value = 0;
         }
 
-        public byte[] GetBytes()
+        public override byte[] GetBytes()
         {
             var bytes = new List<byte>();
             bytes.AddRange(AmfEncoder.EncodeNumber16(0));
