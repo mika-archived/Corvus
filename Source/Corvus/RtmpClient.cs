@@ -85,7 +85,7 @@ namespace Corvus
         public string FlashVer { get; set; }
 
         /// <summary>
-        ///     SEF ファイルの URL
+        ///     SWF ファイルの URL
         /// </summary>
         public string SwfUrl { get; set; }
 
@@ -123,6 +123,11 @@ namespace Corvus
         ///     AMF エンコードメソッド
         /// </summary>
         public int ObjectEncoding => 3; // AMF3
+
+        /// <summary>
+        ///     ユーザーパラメータ
+        /// </summary>
+        public string UserArguments { get; set; }
 
         #endregion Properties
     }
