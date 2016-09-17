@@ -172,7 +172,6 @@ namespace Corvus.Amf.v0
                     Debug.WriteLine("WARN: Invalid AMF0 Type.");
                     return null;
             }
-            return null;
         }
 
         private static BinaryReader CreateReader(byte[] value)
