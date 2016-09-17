@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace Corvus.Amf.v0
 {
@@ -12,6 +13,8 @@ namespace Corvus.Amf.v0
     /// </summary>
     public static class AmfDecoder
     {
+        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+
         public static List<AmfData> Decode(byte[] value)
         {
             var values = new List<AmfData>();
@@ -55,9 +58,11 @@ namespace Corvus.Amf.v0
                             break;
 
                         case (byte) AmfMarker.Reference:
+                            values.Add(DecodeReference(reader));
                             break;
 
                         case (byte) AmfMarker.EcmaArray:
+                            values.Add(DecodeEcmaArray(reader));
                             break;
 
                         case (byte) AmfMarker.ObjectEnd:
@@ -65,9 +70,11 @@ namespace Corvus.Amf.v0
                             break;
 
                         case (byte) AmfMarker.StrictArray:
+                            values.Add(DecodeStrictArray(reader));
                             break;
 
                         case (byte) AmfMarker.Date:
+                            values.Add(DecodeDate(reader));
                             break;
 
                         case (byte) AmfMarker.LongString:
@@ -83,9 +90,11 @@ namespace Corvus.Amf.v0
                             break;
 
                         case (byte) AmfMarker.XmlDocument:
+                            values.Add(DecodeXmlDocument(reader));
                             break;
 
                         case (byte) AmfMarker.TypedObject:
+                            values.Add(DecodeTypedObject(reader));
                             break;
 
                         default:
@@ -128,20 +137,20 @@ namespace Corvus.Amf.v0
                     return new AmfUndefined();
 
                 case (byte) AmfMarker.Reference:
-                    break;
+                    return DecodeReference(br);
 
                 case (byte) AmfMarker.EcmaArray:
-                    break;
+                    return DecodeEcmaArray(br);
 
                 case (byte) AmfMarker.ObjectEnd:
                     Debug.WriteLine("WARN: Incongruous AMF0 Object End Type.");
                     return null;
 
                 case (byte) AmfMarker.StrictArray:
-                    break;
+                    return DecodeStrictArray(br);
 
                 case (byte) AmfMarker.Date:
-                    break;
+                    return DecodeDate(br);
 
                 case (byte) AmfMarker.LongString:
                     return DecodeLongString(br);
@@ -154,10 +163,10 @@ namespace Corvus.Amf.v0
                     return null;
 
                 case (byte) AmfMarker.XmlDocument:
-                    break;
+                    return DecodeXmlDocument(br);
 
                 case (byte) AmfMarker.TypedObject:
-                    break;
+                    return DecodeTypedObject(br);
 
                 default:
                     Debug.WriteLine("WARN: Invalid AMF0 Type.");
@@ -247,6 +256,75 @@ namespace Corvus.Amf.v0
         private static AmfObject DecodeObject(BinaryReader br)
         {
             var obj = new AmfObject();
+            while (true)
+            {
+                if (IsObjectEnd(br))
+                    break;
+                obj.Value.Add(DecodeProperty(br));
+            }
+            return obj;
+        }
+
+        // Reference
+        // [Marker] [Value - 2 bytes]
+        private static AmfReference DecodeReference(BinaryReader br)
+        {
+            var value = DecodeNumber16(br);
+            return new AmfReference {Value = value};
+        }
+
+        // ECMA Array
+        // [Marker] [Length] [Properties...]
+        private static AmfEcmaArray DecodeEcmaArray(BinaryReader br)
+        {
+            DecodeNumber32(br);
+            var obj = new AmfEcmaArray();
+            while (true)
+            {
+                if (IsObjectEnd(br))
+                    break;
+                obj.Value.Add(DecodeProperty(br));
+            }
+            return obj;
+        }
+
+        // Strict Array
+        private static AmfStrictArray DecodeStrictArray(BinaryReader br)
+        {
+            DecodeNumber32(br);
+            var obj = new AmfStrictArray();
+            while (true)
+            {
+                if (IsObjectEnd(br))
+                    break;
+                obj.Value.Add(Decode(br));
+            }
+            return obj;
+        }
+
+        // Date
+        // [Marker] [Value - 8 bytes] [Timezone - 2 bytes]
+        private static AmfData DecodeDate(BinaryReader br)
+        {
+            var value = (double) DecodeNumber64(br).Value;
+            DecodeNumber16(br); // timezone
+            return new AmfValue<DateTime>(UnixEpoch.AddMilliseconds(value));
+        }
+
+        // XML document
+        // [Marker] [Value - variable]
+        private static AmfData DecodeXmlDocument(BinaryReader br)
+        {
+            var xml = DecodeLongString(br);
+            return new AmfValue<XmlReader>(XmlReader.Create(new StringReader((string) xml.Value)));
+        }
+
+        // Typed Object
+        // [Marker] [ClassName] [Properties...] [Marker]
+        private static AmfTypedObject DecodeTypedObject(BinaryReader br)
+        {
+            var className = (string) DecodeString(br).Value;
+            var obj = new AmfTypedObject {ClassName = className};
             while (true)
             {
                 if (IsObjectEnd(br))
