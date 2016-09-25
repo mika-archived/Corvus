@@ -44,6 +44,8 @@ namespace Corvus
         /// </summary>
         public void ShutdownAsync()
         {
+            _writer.DetachStream();
+            _reader.DetachStream();
             _socket.Dispose();
         }
 
