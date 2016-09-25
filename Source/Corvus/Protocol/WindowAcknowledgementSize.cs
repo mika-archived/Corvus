@@ -6,7 +6,7 @@ namespace Corvus.Protocol
     /// <summary>
     ///     Window Acknowledgement Size
     /// </summary>
-    internal class WindowAckSize : Protocol
+    internal class WindowAcknowledgementSize : Protocol
     {
         public int AckSize { get; private set; }
 

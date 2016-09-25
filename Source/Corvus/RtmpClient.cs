@@ -128,7 +128,7 @@ namespace Corvus
         /// <summary>
         ///     AMF エンコードメソッド
         /// </summary>
-        public int ObjectEncoding => 3; // AMF3
+        public int ObjectEncoding => 0; // AMF0
 
         /// <summary>
         ///     ユーザーパラメータ

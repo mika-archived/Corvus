@@ -109,8 +109,14 @@
   <ItemGroup>
     <Compile Include="ArrayHelper.cs" />
     <Compile Include="AudioCodec.cs" />
+    <Compile Include="ChunkStreamId.cs" />
     <Compile Include="Clients\DefaultRtmpClient.cs" />
     <Compile Include="Clients\NicoLiveRtmpClient.cs" />
+    <Compile Include="Commands\ErrorCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\NetConnection\ConnectCommand.cs" />
+    <Compile Include="Commands\NetConnection\INetCommand.cs" />
+    <Compile Include="Commands\ResultCommand.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="NetConnection.cs" />
     <Compile Include="Packet.cs" />
@@ -118,7 +124,7 @@
     <Compile Include="Protocol\LimitType.cs" />
     <Compile Include="Protocol\Protocol.cs" />
     <Compile Include="Protocol\SetPeerBandwidth.cs" />
-    <Compile Include="Protocol\WindowAckSize.cs" />
+    <Compile Include="Protocol\WindowAcknowledgementSize.cs" />
     <Compile Include="RtmpChunk.cs" />
     <Compile Include="RtmpClient.cs" />
     <Compile Include="RtmpDump.cs" />
