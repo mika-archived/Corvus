@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Corvus
 {
@@ -18,16 +19,26 @@ namespace Corvus
             Packet = new Packet(rtmpUri);
             _random = new Random();
             _netConnection = new NetConnection(this);
+
+            App = rtmpUri.AbsolutePath;
+            FlashVer = "WIN 10,0,32,18";
+            TcUrl = rtmpUri.OriginalString;
+            Fpad = false;
+            Capabilities = 239;
+            AudioCodecs = (int) (AudioCodec.SpeexAudio | AudioCodec.AAC | AudioCodec.G711U | AudioCodec.G711A | AudioCodec.NellyMouser |
+                                 AudioCodec.NellyMouser8 | AudioCodec.UNUSED | AudioCodec.MP3 | AudioCodec.ADPCM | AudioCodec.None);
+            VideoCodecs = (int) (VideoCodec.H264 | VideoCodec.HomebrewV | VideoCodec.VP6Alpha | VideoCodec.VP6 |
+                                 VideoCodec.Homebrew | VideoCodec.Sorenson);
         }
 
         /// <summary>
         ///     指定された RtmpUrl に対して、接続を行います。
         /// </summary>
-        public void Connect()
+        public async Task Connect()
         {
-            Packet.PrepareAsync();
-            Handshake();
-            _netConnection.Connect();
+            await Packet.PrepareAsync();
+            await Handshake();
+            await _netConnection.Connect();
         }
 
         /// <summary>
@@ -41,7 +52,7 @@ namespace Corvus
         /// <summary>
         ///     URI に対して、 Handshake を行います。
         /// </summary>
-        private void Handshake()
+        private async Task Handshake()
         {
             // C0+C1
             var c0 = new byte[1537];
@@ -51,23 +62,23 @@ namespace Corvus
             ArrayHelper.Fill(c0, 0x00, 4, 5); // 0x00 (4 bytes)
             for (var i = 9; i < 1537; i++) // random (1528 bytes)
                 c0[i] = (byte) _random.Next(0x00, 0xff);
-            Packet.SendAsync(c0);
+            await Packet.SendAsync(c0);
 
             // S0
-            var s0 = Packet.ReceiveAsync(1);
+            var s0 = await Packet.ReceiveAsync(1);
             if (s0[0] != 0x03)
                 throw new NotSupportedException($"Corvus is supported RTMP 3, but response version is {s0[0]}");
 
             // S1
-            var s1 = Packet.ReceiveAsync(1536);
+            var s1 = await Packet.ReceiveAsync(1536);
 
             // C2
             ArrayHelper.Concat(s1, Timestamp.GetNow(), 4); // time2 (4 bytes)
-            Packet.SendAsync(s1);
+            await Packet.SendAsync(s1);
 
             // Task.Delay(TimeSpan.FromMilliseconds(1000));
             // S2
-            var s2 = Packet.ReceiveAsync(1536);
+            var s2 = await Packet.ReceiveAsync(1536);
             if (!c0.Skip(9).ToArray().SequenceEqual(s2.Skip(8).ToArray()))
                 Debug.WriteLine("WARN: C1 Random and S2 Random does not match.");
         }
@@ -85,11 +96,6 @@ namespace Corvus
         public string FlashVer { get; set; }
 
         /// <summary>
-        ///     SWF ファイルの URL
-        /// </summary>
-        public string SwfUrl { get; set; }
-
-        /// <summary>
         ///     サーバー URL
         /// </summary>
         public string TcUrl { get; set; }
@@ -98,6 +104,11 @@ namespace Corvus
         ///     プロキシを使用するか
         /// </summary>
         public bool Fpad { get; set; }
+
+        /// <summary>
+        ///     機能
+        /// </summary>
+        public int Capabilities { get; set; }
 
         /// <summary>
         ///     使用するオーディオコーデック
@@ -113,11 +124,6 @@ namespace Corvus
         ///     サポートしている動画機能
         /// </summary>
         public int VideoFunction => 0x0001; // SUPPORT_VID_CLIENT_SEEK
-
-        /// <summary>
-        ///     SWF ファイルがロードされるページ URL
-        /// </summary>
-        public string PageUrl { get; set; }
 
         /// <summary>
         ///     AMF エンコードメソッド

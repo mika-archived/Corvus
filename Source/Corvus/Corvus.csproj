@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4CC75801-9F1D-4C06-AA90-34F7F24209FF}</ProjectGuid>
+    <ProjectGuid>{55D93E03-5817-4CED-9058-9B0D2FC5E3C1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Corvus</RootNamespace>
@@ -111,9 +111,14 @@
     <Compile Include="AudioCodec.cs" />
     <Compile Include="Clients\DefaultRtmpClient.cs" />
     <Compile Include="Clients\NicoLiveRtmpClient.cs" />
+    <Compile Include="MessageType.cs" />
     <Compile Include="NetConnection.cs" />
     <Compile Include="Packet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol\LimitType.cs" />
+    <Compile Include="Protocol\Protocol.cs" />
+    <Compile Include="Protocol\SetPeerBandwidth.cs" />
+    <Compile Include="Protocol\WindowAckSize.cs" />
     <Compile Include="RtmpChunk.cs" />
     <Compile Include="RtmpClient.cs" />
     <Compile Include="RtmpDump.cs" />
