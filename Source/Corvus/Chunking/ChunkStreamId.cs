@@ -1,4 +1,4 @@
-﻿namespace Corvus
+﻿namespace Corvus.Chunking
 {
     internal enum ChunkStreamId : byte
     {

@@ -25,6 +25,7 @@ namespace Corvus
             _uri = uri;
             _socket = new StreamSocket();
             _socket.Control.KeepAlive = true;
+            _socket.Control.NoDelay = true;
             _writer = new DataWriter(_socket.OutputStream);
             _reader = new DataReader(_socket.InputStream);
 
@@ -57,6 +58,7 @@ namespace Corvus
         {
             _writer.WriteBytes(payload);
             await _writer.StoreAsync();
+            await _writer.FlushAsync();
         }
 
         /// <summary>

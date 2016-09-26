@@ -109,7 +109,10 @@
   <ItemGroup>
     <Compile Include="ArrayHelper.cs" />
     <Compile Include="AudioCodec.cs" />
-    <Compile Include="ChunkStreamId.cs" />
+    <Compile Include="Chunking\ChunkBasicHeader.cs" />
+    <Compile Include="Chunking\ChunkHeader.cs" />
+    <Compile Include="Chunking\ChunkMessageHeader.cs" />
+    <Compile Include="Chunking\ChunkStreamId.cs" />
     <Compile Include="Clients\DefaultRtmpClient.cs" />
     <Compile Include="Clients\NicoLiveRtmpClient.cs" />
     <Compile Include="Commands\ErrorCommand.cs" />
@@ -125,7 +128,6 @@
     <Compile Include="Protocol\Protocol.cs" />
     <Compile Include="Protocol\SetPeerBandwidth.cs" />
     <Compile Include="Protocol\WindowAcknowledgementSize.cs" />
-    <Compile Include="RtmpChunk.cs" />
     <Compile Include="RtmpClient.cs" />
     <Compile Include="RtmpDump.cs" />
     <Compile Include="Timestamp.cs" />
@@ -140,6 +142,7 @@
   <ItemGroup>
     <Content Include="Properties\Corvus.rd.xml" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

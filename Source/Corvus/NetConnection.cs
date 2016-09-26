@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 
 using Corvus.Amf.v0;
+using Corvus.Chunking;
 using Corvus.Commands.NetConnection;
 using Corvus.Protocol;
 
@@ -22,8 +23,10 @@ namespace Corvus
         public async Task Connect()
         {
             var connect = new ConnectCommand(_rtmpClient) {OptionalUserArgumets = new AmfValue<string>(_rtmpClient.UserArguments)};
-            var chunk = new RtmpChunk(0, (byte) ChunkStreamId.HighLevel, (byte) MessageType.CommandMessage0, 0, connect.GetBytes());
-            await _rtmpClient.Packet.SendAsync(chunk.GetBytes());
+            var chunk = new ChunkHeader(0, (byte) ChunkStreamId.HighLevel, (byte) MessageType.CommandMessage0, 0, connect.GetBytes());
+            var bytes = chunk.GetBytes();
+            await _rtmpClient.Packet.SendAsync(bytes);
+            RtmpDump.DumpHex(bytes);
 
             // [Window Acknowledgement Size] + [Set Peer Bandwidth] + [_result()]
             var was = new WindowAcknowledgementSize();

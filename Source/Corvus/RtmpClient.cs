@@ -21,7 +21,7 @@ namespace Corvus
             _netConnection = new NetConnection(this);
 
             App = rtmpUri.AbsolutePath;
-            FlashVer = "WIN 10,0,32,18";
+            FlashVer = "WIN 23,0,0,162";
             TcUrl = rtmpUri.OriginalString;
             Fpad = false;
             Capabilities = 239;
@@ -54,7 +54,7 @@ namespace Corvus
         /// </summary>
         private async Task Handshake()
         {
-            // C0+C1
+            // [C0] + [C1]
             var c0 = new byte[1537];
             c0[0] = 0x03;
             var time = Timestamp.GetNow();
@@ -64,20 +64,17 @@ namespace Corvus
                 c0[i] = (byte) _random.Next(0x00, 0xff);
             await Packet.SendAsync(c0);
 
-            // S0
-            var s0 = await Packet.ReceiveAsync(1);
+            // [S0] + [S1] + [S2]
+            var s0 = await Packet.ReceiveAsync(1 + 1536);
             if (s0[0] != 0x03)
                 throw new NotSupportedException($"Corvus is supported RTMP 3, but response version is {s0[0]}");
 
-            // S1
-            var s1 = await Packet.ReceiveAsync(1536);
+            // [C2]
+            var c2 = s0.Skip(1).ToArray();
+            ArrayHelper.Concat(c2, Timestamp.GetNow(), 4); // time2 (4 bytes)
+            await Packet.SendAsync(c2);
 
-            // C2
-            ArrayHelper.Concat(s1, Timestamp.GetNow(), 4); // time2 (4 bytes)
-            await Packet.SendAsync(s1);
-
-            // Task.Delay(TimeSpan.FromMilliseconds(1000));
-            // S2
+            // [S2]
             var s2 = await Packet.ReceiveAsync(1536);
             if (!c0.Skip(9).ToArray().SequenceEqual(s2.Skip(8).ToArray()))
                 Debug.WriteLine("WARN: C1 Random and S2 Random does not match.");
@@ -128,7 +125,7 @@ namespace Corvus
         /// <summary>
         ///     AMF エンコードメソッド
         /// </summary>
-        public int ObjectEncoding => 0; // AMF0
+        public int ObjectEncoding => 0x03; // AMF0
 
         /// <summary>
         ///     ユーザーパラメータ
