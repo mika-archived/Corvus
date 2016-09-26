@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{55D93E03-5817-4CED-9058-9B0D2FC5E3C1}</ProjectGuid>
+    <ProjectGuid>{4CC75801-9F1D-4C06-AA90-34F7F24209FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Corvus</RootNamespace>
