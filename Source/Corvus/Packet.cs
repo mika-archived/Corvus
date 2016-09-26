@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
+
+using Corvus.Chunking;
 
 namespace Corvus
 {
@@ -15,21 +19,17 @@ namespace Corvus
         private readonly Uri _uri;
         private readonly DataWriter _writer;
 
-        /// <summary>
-        ///     タイムアウト
-        /// </summary>
-        public TimeSpan Timeout { get; set; }
+        internal uint MaxChunkSize { get; }
 
         public Packet(Uri uri)
         {
             _uri = uri;
+            MaxChunkSize = 128;
             _socket = new StreamSocket();
             _socket.Control.KeepAlive = true;
             _socket.Control.NoDelay = true;
             _writer = new DataWriter(_socket.OutputStream);
             _reader = new DataReader(_socket.InputStream);
-
-            Timeout = TimeSpan.FromSeconds(5);
         }
 
         /// <summary>
@@ -59,6 +59,29 @@ namespace Corvus
             _writer.WriteBytes(payload);
             await _writer.StoreAsync();
             await _writer.FlushAsync();
+        }
+
+        /// <summary>
+        ///     payload を送信します。
+        /// </summary>
+        /// <param name="header">RTMP Chunk Header</param>
+        /// <param name="payload">送信するデータ</param>
+        /// <param name="n">送信済みデータサイズ</param>
+        /// <returns></returns>
+        public async Task SendAsync(ChunkHeader header, byte[] payload, int n = 0)
+        {
+            if (n > payload.Length)
+                return;
+
+            // FIXME: 2つ目以降のヘッダーの変更
+            //        Chunk Message Header Type 3 にする。
+            var data = MaxChunkSize < payload.Length - n ? payload.Skip(n).Take((int) MaxChunkSize).ToArray() : payload.Skip(n).ToArray();
+            var bytes = new List<byte>();
+            bytes.AddRange(header.GetBytes());
+            bytes.AddRange(data);
+            await SendAsync(bytes.ToArray());
+            if (MaxChunkSize < payload.Length - n)
+                await SendAsync(header, payload, n + (int) MaxChunkSize);
         }
 
         /// <summary>

@@ -24,9 +24,7 @@ namespace Corvus
         {
             var connect = new ConnectCommand(_rtmpClient) {OptionalUserArgumets = new AmfValue<string>(_rtmpClient.UserArguments)};
             var chunk = new ChunkHeader(0, (byte) ChunkStreamId.HighLevel, (byte) MessageType.CommandMessage0, 0, connect.GetBytes());
-            var bytes = chunk.GetBytes();
-            await _rtmpClient.Packet.SendAsync(bytes);
-            RtmpDump.DumpHex(bytes);
+            await _rtmpClient.Packet.SendAsync(chunk, connect.GetBytes());
 
             // [Window Acknowledgement Size] + [Set Peer Bandwidth] + [_result()]
             var was = new WindowAcknowledgementSize();
