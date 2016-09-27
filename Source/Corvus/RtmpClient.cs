@@ -3,6 +3,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Corvus.Chunking;
+using Corvus.ProtocolMessages;
+
 namespace Corvus
 {
     /// <summary>
@@ -42,6 +45,26 @@ namespace Corvus
             await _netConnection.Connect();
 
             _isConnected = true;
+#pragma warning disable 4014
+            Task.Run(async () => await StreamLoop());
+#pragma warning restore 4014
+        }
+
+        private async Task StreamLoop()
+        {
+            while (_isConnected)
+            {
+                var reader = new ChunkReader(Packet);
+                await reader.Read();
+
+                switch (reader.MessageHeader.MessageTypeId.ToMessageType())
+                {
+                    case MessageType.SetChunkSize:
+                        var setChunkSize = new SetChunkSize(Packet, reader);
+                        await setChunkSize.Read();
+                        break;
+                }
+            }
         }
 
         /// <summary>

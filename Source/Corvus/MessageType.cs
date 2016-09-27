@@ -75,6 +75,68 @@
         /// <summary>
         ///     Aggregate Message (22)
         /// </summary>
-        AggregateMessage = 0x16
+        AggregateMessage = 0x16,
+
+        /// <summary>
+        ///     Not Supported Message (??)
+        /// </summary>
+        NotSupport
+    }
+
+    internal static class MessageTypeExt
+    {
+        public static MessageType ToMessageType(this byte b)
+        {
+            switch (b)
+            {
+                case 0x01:
+                    return MessageType.SetChunkSize;
+
+                case 0x02:
+                    return MessageType.AbortMessage;
+
+                case 0x03:
+                    return MessageType.Acknowledgement;
+
+                case 0x04:
+                    return MessageType.UserControlMessages;
+
+                case 0x05:
+                    return MessageType.WindowAckSize;
+
+                case 0x06:
+                    return MessageType.SetPeerBandwidth;
+
+                case 0x08:
+                    return MessageType.AudioMessage;
+
+                case 0x09:
+                    return MessageType.VideoMessage;
+
+                case 0x0F:
+                    return MessageType.DataMessage3;
+
+                case 0x10:
+                    return MessageType.SharedObjectMsg3;
+
+                case 0x11:
+                    return MessageType.CommandMessage3;
+
+                case 0x12:
+                    return MessageType.DataMessage0;
+
+                case 0x13:
+                    return MessageType.SharedObjectMsg0;
+
+                case 0x14:
+                    return MessageType.CommandMessage0;
+
+                case 0x16:
+                    return MessageType.AggregateMessage;
+
+                default:
+                    return MessageType.NotSupport;
+            }
+        }
     }
 }

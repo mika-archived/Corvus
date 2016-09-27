@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{55D93E03-5817-4CED-9058-9B0D2FC5E3C1}</ProjectGuid>
+    <ProjectGuid>{4CC75801-9F1D-4C06-AA90-34F7F24209FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Corvus</RootNamespace>
@@ -123,6 +123,7 @@
     <Compile Include="Commands\NetConnection\ConnectCommand.cs" />
     <Compile Include="Commands\NetConnection\NetCommand.cs" />
     <Compile Include="Commands\ResultCommand.cs" />
+    <Compile Include="ProtocolMessages\SetChunkSize.cs" />
     <Compile Include="RtmpCommandErrorException.cs" />
     <Compile Include="MessageType.cs" />
     <Compile Include="NetConnection.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="ProtocolMessages\WindowAcknowledgementSize.cs" />
     <Compile Include="RtmpClient.cs" />
     <Compile Include="RtmpDump.cs" />
+    <Compile Include="RtmpInvalidFormatException.cs" />
     <Compile Include="Timestamp.cs" />
     <Compile Include="VideoCodec.cs" />
   </ItemGroup>

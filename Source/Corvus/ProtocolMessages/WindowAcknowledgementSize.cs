@@ -12,13 +12,14 @@ namespace Corvus.ProtocolMessages
     {
         public int AckSize { get; private set; }
 
-        public WindowAcknowledgementSize(Packet packet) : base(packet) {}
+        public WindowAcknowledgementSize(Packet packet, ChunkReader reader) : base(packet, reader) {}
 
         public override async Task Read()
         {
-            // Header 12 bytes + Body 4 bytes
             var reader = new ChunkReader(Packet);
             await reader.Read();
+            CheckResponse(reader);
+
             AckSize = BitHelper.ToInt32(reader.Body);
         }
 

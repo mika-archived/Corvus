@@ -8,6 +8,7 @@ namespace Corvus.Chunking
     internal class ChunkReader
     {
         private readonly Packet _packet;
+        private bool _isRead;
 
         public ChunkBasicHeader BasicHeader { get; private set; }
         public ChunkMessageHeader MessageHeader { get; private set; }
@@ -16,6 +17,7 @@ namespace Corvus.Chunking
         public ChunkReader(Packet packet)
         {
             _packet = packet;
+            _isRead = false;
         }
 
         /// <summary>
@@ -24,6 +26,9 @@ namespace Corvus.Chunking
         /// <returns></returns>
         public async Task Read()
         {
+            if (_isRead)
+                return;
+            _isRead = true;
             // Basic Header
             var firstByte = await _packet.ReceiveAsync(1);
             var fmt = (byte) (firstByte[0] >> 6);

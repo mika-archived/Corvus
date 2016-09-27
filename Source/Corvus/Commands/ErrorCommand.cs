@@ -40,5 +40,11 @@ namespace Corvus.Commands
             Description = (string) obj.Value.First(w => w.Name == "description").Value.Value;
             Reason = (string) obj.Value.Where(w => w.Name == "description").ElementAt(1).Value.Value;
         }
+
+        public void CastTo(IEnumerable<byte> bytes)
+        {
+            var amfData = AmfDecoder.Decode(bytes.ToArray());
+            CastTo(amfData);
+        }
     }
 }

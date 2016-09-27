@@ -12,12 +12,13 @@ namespace Corvus.ProtocolMessages
 
         public LimitType Limit { get; private set; }
 
-        public SetPeerBandwidth(Packet packet) : base(packet) {}
+        public SetPeerBandwidth(Packet packet, ChunkReader reader) : base(packet, reader) {}
 
         public override async Task Read()
         {
             var reader = new ChunkReader(Packet);
             await reader.Read();
+            CheckResponse(reader);
 
             var bytes = reader.Body;
             Size = BitHelper.ToInt32(bytes.Take(4));

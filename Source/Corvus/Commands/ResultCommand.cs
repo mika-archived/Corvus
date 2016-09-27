@@ -30,7 +30,7 @@ namespace Corvus.Commands
                 // _error()
                 var errorCommand = new ErrorCommand();
                 errorCommand.CastTo(amfData);
-                throw new RtmpCommandErrorException(errorCommand, "NetConnection.connect returned _error.");
+                throw new RtmpCommandErrorException(errorCommand, "Previous command returned _error().");
             }
         }
     }
