@@ -1,5 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
+using Corvus.Chunking;
 
 namespace Corvus.Protocol
 {
@@ -13,8 +14,9 @@ namespace Corvus.Protocol
         public override async Task Read(Packet packet)
         {
             // Header 12 bytes + Body 4 bytes
-            var bytes = await packet.ReceiveAsync(16);
-            AckSize = BitConverter.ToInt32(bytes, 12);
+            var reader = new ChunkReader(packet);
+            await reader.Read();
+            AckSize = BitHelper.ToInt32(reader.Body);
         }
     }
 }

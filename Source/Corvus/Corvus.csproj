@@ -112,6 +112,7 @@
     <Compile Include="Chunking\ChunkBasicHeader.cs" />
     <Compile Include="Chunking\ChunkHeader.cs" />
     <Compile Include="Chunking\ChunkMessageHeader.cs" />
+    <Compile Include="Chunking\ChunkReader.cs" />
     <Compile Include="Chunking\ChunkStreamId.cs" />
     <Compile Include="Clients\DefaultRtmpClient.cs" />
     <Compile Include="Clients\NicoLiveRtmpClient.cs" />

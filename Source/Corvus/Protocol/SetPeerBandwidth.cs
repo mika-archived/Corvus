@@ -1,5 +1,7 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading.Tasks;
+
+using Corvus.Chunking;
 
 namespace Corvus.Protocol
 {
@@ -11,9 +13,12 @@ namespace Corvus.Protocol
 
         public override async Task Read(Packet packet)
         {
-            var bytes = await packet.ReceiveAsync(17);
-            Size = BitConverter.ToInt32(bytes, 12);
-            var limit = bytes[16];
+            var reader = new ChunkReader(packet);
+            await reader.Read();
+
+            var bytes = reader.Body;
+            Size = BitHelper.ToInt32(bytes.Take(4));
+            var limit = bytes[4];
             if (limit == 0)
                 Limit = LimitType.Hard;
             else if (limit == 1)
