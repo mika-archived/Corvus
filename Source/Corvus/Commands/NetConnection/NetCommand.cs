@@ -9,7 +9,7 @@ namespace Corvus.Commands.NetConnection
         /// <summary>
         ///     Command information object which has the name-value pairs that encoding by AMF.
         /// </summary>
-        public ReadOnlyCollection<AmfData> CommandObject { get; protected set; }
+        protected ReadOnlyCollection<AmfData> CommandObject { get; set; }
 
         /// <summary>
         ///     Any optional information.

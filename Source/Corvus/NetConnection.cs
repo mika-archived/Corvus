@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using Corvus.Amf.v0;
+using Corvus.Commands;
 using Corvus.Commands.NetConnection;
 using Corvus.ProtocolMessages;
 
@@ -24,19 +24,14 @@ namespace Corvus
             var connect = new ConnectCommand(_rtmpClient) {OptionalUserArgumets = new AmfValue<string>(_rtmpClient.UserArguments)};
             await connect.Invoke();
 
-            // [Window Acknowledgement Size] + [Set Peer Bandwidth] + [_result()]
-            var was = new WindowAcknowledgementSize(_rtmpClient.Packet);
-            await was.Read();
+            var windowAckSize = new WindowAcknowledgementSize(_rtmpClient.Packet);
+            await windowAckSize.Read();
 
-            var spb = new SetPeerBandwidth(_rtmpClient.Packet);
-            await spb.Read();
+            var setPeerBandwidth = new SetPeerBandwidth(_rtmpClient.Packet);
+            await setPeerBandwidth.Read();
 
-            // _result()
-            var bytesRead = await _rtmpClient.Packet.ReceiveAsync(10);
-            Debug.WriteLine(spb);
-            // Window Acknowledgement Size
-
-            //
+            var result = new ResultCommand(_rtmpClient.Packet);
+            await result.Read();
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Corvus
     {
         private readonly NetConnection _netConnection;
         private readonly Random _random;
+        private bool _isConnected;
         protected internal Packet Packet { get; }
 
         protected RtmpClient(Uri rtmpUri)
@@ -39,6 +40,8 @@ namespace Corvus
             await Packet.PrepareAsync();
             await Handshake();
             await _netConnection.Connect();
+
+            _isConnected = true;
         }
 
         /// <summary>

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Corvus.Chunking;
-using Corvus.Protocol;
 
 namespace Corvus.ProtocolMessages
 {

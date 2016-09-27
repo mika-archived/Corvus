@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+
+using Corvus.Amf.v0;
+using Corvus.Chunking;
 
 namespace Corvus.Commands
 {
@@ -14,9 +18,20 @@ namespace Corvus.Commands
 
         public ResultCommand(Packet packet) : base(packet) {}
 
-        public override Task Read()
+        public override async Task Read()
         {
-            throw new NotImplementedException();
+            var reader = new ChunkReader(Packet);
+            await reader.Read();
+
+            var amfData = AmfDecoder.Decode(reader.Body.ToArray());
+            var result = amfData[0] as AmfData<string>;
+            if (result?.Value != "_result")
+            {
+                // _error()
+                var errorCommand = new ErrorCommand();
+                errorCommand.CastTo(amfData);
+                throw new RtmpCommandErrorException(errorCommand, "NetConnection.connect returned _error.");
+            }
         }
     }
 }
