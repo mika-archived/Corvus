@@ -73,11 +73,9 @@ namespace Corvus
             if (n > payload.Length)
                 return;
 
-            // FIXME: 2つ目以降のヘッダーの変更
-            //        Chunk Message Header Type 3 にする。
             var data = MaxChunkSize < payload.Length - n ? payload.Skip(n).Take((int) MaxChunkSize).ToArray() : payload.Skip(n).ToArray();
             var bytes = new List<byte>();
-            bytes.AddRange(header.GetBytes());
+            bytes.AddRange(n > 0 ? new ChunkHeader(3, header.ChunkStreamId, 0, 0, new byte[0]).GetBytes() : header.GetBytes());
             bytes.AddRange(data);
             await SendAsync(bytes.ToArray());
             if (MaxChunkSize < payload.Length - n)
