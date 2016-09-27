@@ -1,4 +1,4 @@
-﻿namespace Corvus.Protocol
+﻿namespace Corvus.ProtocolMessages
 {
     internal enum LimitType
     {

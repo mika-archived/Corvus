@@ -1,13 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 using Corvus.Amf.v0;
+using Corvus.Chunking;
 
 namespace Corvus.Commands.NetConnection
 {
-    internal class ConnectCommand : INetCommand
+    internal sealed class ConnectCommand : NetCommand
     {
-        public ConnectCommand(RtmpClient rtmpClient)
+        public override string CommandName => "connect"; // Set to `connect`.
+        public override int TransactionId => 1; // Always set to `1`.
+
+        public ConnectCommand(RtmpClient rtmpClient) : base(rtmpClient.Packet)
         {
             var nvPairs = new List<AmfData>
             {
@@ -32,12 +36,13 @@ namespace Corvus.Commands.NetConnection
             CommandObject = nvPairs.AsReadOnly();
         }
 
-        public string CommandName => "connect"; // Set to `connect`.
-        public int TransactionId => 1; // Always set to `1`.
-        public ReadOnlyCollection<AmfData> CommandObject { get; }
-        public AmfData OptionalUserArgumets { get; set; }
+        public override async Task Invoke()
+        {
+            var chunk = new ChunkHeader(0, (byte) ChunkStreamId.HighLevel, (byte) MessageType.CommandMessage0, 0, GetBytes());
+            await Packet.SendAsync(chunk, GetBytes());
+        }
 
-        public byte[] GetBytes()
+        public override byte[] GetBytes()
         {
             var bytes = new List<byte>();
             foreach (var amfData in CommandObject)

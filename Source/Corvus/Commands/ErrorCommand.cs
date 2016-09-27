@@ -1,14 +1,22 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Corvus.Commands
 {
-    internal class ErrorCommand : ICommand
+    internal class ErrorCommand : ReceiveCommand
     {
-        public string CommandName => "_error";
+        public override string CommandName => "_error";
 
-        public int TransactionId
+        public override int TransactionId
         {
             get { throw new NotSupportedException(); }
+        }
+
+        public ErrorCommand(Packet packet) : base(packet) {}
+
+        public override Task Read()
+        {
+            throw new NotImplementedException();
         }
     }
 }

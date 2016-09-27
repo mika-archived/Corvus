@@ -4,18 +4,20 @@ using Corvus.Amf.v0;
 
 namespace Corvus.Commands.NetConnection
 {
-    internal interface INetCommand : ICommand
+    internal abstract class NetCommand : CommandBase
     {
         /// <summary>
         ///     Command information object which has the name-value pairs that encoding by AMF.
         /// </summary>
-        ReadOnlyCollection<AmfData> CommandObject { get; }
+        public ReadOnlyCollection<AmfData> CommandObject { get; protected set; }
 
         /// <summary>
         ///     Any optional information.
         /// </summary>
-        AmfData OptionalUserArgumets { get; }
+        public AmfData OptionalUserArgumets { get; set; }
 
-        byte[] GetBytes();
+        protected NetCommand(Packet packet) : base(packet) {}
+
+        public abstract byte[] GetBytes();
     }
 }

@@ -1,19 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Corvus.Chunking;
+using Corvus.Protocol;
 
-namespace Corvus.Protocol
+namespace Corvus.ProtocolMessages
 {
-    internal class SetPeerBandwidth : Protocol
+    internal class SetPeerBandwidth : ProtocolMessage
     {
         public int Size { get; private set; }
 
         public LimitType Limit { get; private set; }
 
-        public override async Task Read(Packet packet)
+        public SetPeerBandwidth(Packet packet) : base(packet) {}
+
+        public override async Task Read()
         {
-            var reader = new ChunkReader(packet);
+            var reader = new ChunkReader(Packet);
             await reader.Read();
 
             var bytes = reader.Body;
@@ -25,6 +29,11 @@ namespace Corvus.Protocol
                 Limit = LimitType.Soft;
             else
                 Limit = LimitType.Dynamic;
+        }
+
+        public override Task Write()
+        {
+            throw new NotImplementedException();
         }
     }
 }
