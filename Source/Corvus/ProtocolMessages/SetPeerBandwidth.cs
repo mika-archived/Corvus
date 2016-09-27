@@ -14,13 +14,9 @@ namespace Corvus.ProtocolMessages
 
         public SetPeerBandwidth(Packet packet, ChunkReader reader) : base(packet, reader) {}
 
-        public override async Task Read()
+        public override void Read()
         {
-            var reader = new ChunkReader(Packet);
-            await reader.Read();
-            CheckResponse(reader);
-
-            var bytes = reader.Body;
+            var bytes = Reader.Body;
             Size = BitHelper.ToInt32(bytes.Take(4));
             var limit = bytes[4];
             if (limit == 0)

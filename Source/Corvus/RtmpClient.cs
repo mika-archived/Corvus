@@ -61,7 +61,7 @@ namespace Corvus
                 {
                     case MessageType.SetChunkSize:
                         var setChunkSize = new SetChunkSize(Packet, reader);
-                        await setChunkSize.Read();
+                        setChunkSize.Read();
                         break;
                 }
             }

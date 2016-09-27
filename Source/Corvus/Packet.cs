@@ -19,7 +19,7 @@ namespace Corvus
         private readonly Uri _uri;
         private readonly DataWriter _writer;
 
-        internal uint MaxChunkSize { get; }
+        internal uint MaxChunkSize { get; set; }
 
         public Packet(Uri uri)
         {

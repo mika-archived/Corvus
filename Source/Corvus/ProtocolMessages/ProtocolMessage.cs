@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 
 using Corvus.Chunking;
-using Corvus.Commands;
 
 namespace Corvus.ProtocolMessages
 {
@@ -11,25 +10,16 @@ namespace Corvus.ProtocolMessages
     internal abstract class ProtocolMessage
     {
         protected Packet Packet { get; }
-        protected ChunkReader Bytes { get; }
+        protected ChunkReader Reader { get; }
 
         protected ProtocolMessage(Packet packet, ChunkReader reader)
         {
             Packet = packet;
-            Bytes = reader;
+            Reader = reader;
         }
 
-        public abstract Task Read();
+        public abstract void Read();
 
         public abstract Task Write();
-
-        protected void CheckResponse(ChunkReader reader)
-        {
-            if (reader.MessageHeader.MessageTypeId != (byte) MessageType.CommandMessage0)
-                return;
-            var errorCommand = new ErrorCommand();
-            errorCommand.CastTo(reader.Body);
-            throw new RtmpCommandErrorException(errorCommand, "Previous command returned _error().");
-        }
     }
 }

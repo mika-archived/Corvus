@@ -14,13 +14,9 @@ namespace Corvus.ProtocolMessages
 
         public WindowAcknowledgementSize(Packet packet, ChunkReader reader) : base(packet, reader) {}
 
-        public override async Task Read()
+        public override void Read()
         {
-            var reader = new ChunkReader(Packet);
-            await reader.Read();
-            CheckResponse(reader);
-
-            AckSize = BitHelper.ToInt32(reader.Body);
+            AckSize = BitHelper.ToInt32(Reader.Body);
         }
 
         public override Task Write()
