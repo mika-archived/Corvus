@@ -63,6 +63,11 @@ namespace Corvus
                         var setChunkSize = new SetChunkSize(Packet, reader);
                         setChunkSize.Read();
                         break;
+
+                    case MessageType.AbortMessage:
+                        var abortMessage = new AbortMessage(Packet, reader);
+                        abortMessage.Read();
+                        break;
                 }
             }
         }
