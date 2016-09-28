@@ -68,6 +68,12 @@ namespace Corvus
                         var abortMessage = new AbortMessage(Packet, reader);
                         abortMessage.Read();
                         break;
+
+                    case MessageType.Acknowledgement:
+                        // 通らないハズ...
+                        var ack = new Acknowledgement(Packet, reader);
+                        ack.Read();
+                        break;
                 }
             }
         }
