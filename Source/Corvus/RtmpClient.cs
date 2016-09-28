@@ -74,6 +74,11 @@ namespace Corvus
                         var ack = new Acknowledgement(Packet, reader);
                         ack.Read();
                         break;
+
+                    case MessageType.WindowAckSize:
+                        var windowAckSize = new WindowAcknowledgementSize(Packet, reader);
+                        windowAckSize.Read();
+                        break;
                 }
             }
         }
