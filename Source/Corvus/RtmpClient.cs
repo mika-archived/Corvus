@@ -89,6 +89,11 @@ namespace Corvus
                         var setPeerBandwidth = new SetPeerBandwidth(Packet, reader);
                         setPeerBandwidth.Read();
                         break;
+
+                    case MessageType.AudioMessage:
+                        var audioMessage = new AudioMessage(Packet, reader);
+                        audioMessage.Read();
+                        break;
                 }
             }
         }
