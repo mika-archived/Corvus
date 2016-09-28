@@ -75,6 +75,11 @@ namespace Corvus
                         ack.Read();
                         break;
 
+                    case MessageType.UserControlMessages:
+                        var userControl = new UserControlMessages(Packet, reader);
+                        userControl.Read();
+                        break;
+
                     case MessageType.WindowAckSize:
                         var windowAckSize = new WindowAcknowledgementSize(Packet, reader);
                         windowAckSize.Read();
