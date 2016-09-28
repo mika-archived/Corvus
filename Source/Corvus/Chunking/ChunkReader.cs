@@ -47,6 +47,7 @@ namespace Corvus.Chunking
             var length = BitHelper.ToInt32(await _packet.ReceiveAsync(3));
             var msgTypeId = await _packet.ReceiveAsync(1);
             var msgStreamId = BitHelper.ToInt32(await _packet.ReceiveAsync(4));
+            MessageHeader = new ChunkMessageHeader(fmt, (uint) length, msgTypeId[0], msgStreamId);
 
             var bytesRead = new List<byte>();
             var size = length > _packet.MaxChunkSize ? (int) _packet.MaxChunkSize : length;
@@ -58,7 +59,6 @@ namespace Corvus.Chunking
                 size = length - bytesRead.Count > _packet.MaxChunkSize ? (int) _packet.MaxChunkSize : length - bytesRead.Count;
                 bytesRead.AddRange(await _packet.ReceiveAsync(size));
             }
-            MessageHeader = new ChunkMessageHeader(fmt, (uint) length, msgTypeId[0], msgStreamId);
             Body = bytesRead.AsReadOnly();
         }
     }

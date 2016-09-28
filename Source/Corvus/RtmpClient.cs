@@ -84,6 +84,11 @@ namespace Corvus
                         var windowAckSize = new WindowAcknowledgementSize(Packet, reader);
                         windowAckSize.Read();
                         break;
+
+                    case MessageType.SetPeerBandwidth:
+                        var setPeerBandwidth = new SetPeerBandwidth(Packet, reader);
+                        setPeerBandwidth.Read();
+                        break;
                 }
             }
         }
