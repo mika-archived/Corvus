@@ -94,6 +94,11 @@ namespace Corvus
                         var audioMessage = new AudioMessage(Packet, reader);
                         audioMessage.Read();
                         break;
+
+                    case MessageType.VideoMessage:
+                        var videoMessage = new VideoMessage(Packet, reader);
+                        videoMessage.Read();
+                        break;
                 }
             }
         }
