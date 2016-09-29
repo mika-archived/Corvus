@@ -105,6 +105,17 @@ namespace Corvus
                         var dataMessage = new DataMessage(Packet, reader);
                         dataMessage.Read();
                         break;
+
+                    case MessageType.SharedObjectMsg0:
+                    case MessageType.SharedObjectMsg3:
+                        // TODO: Impl
+                        break;
+
+                    case MessageType.CommandMessage0:
+                    case MessageType.CommandMessage3:
+                        var commandMessage = new CommandMessage(Packet, reader);
+                        commandMessage.Read();
+                        break;
                 }
             }
         }
