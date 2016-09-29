@@ -99,6 +99,12 @@ namespace Corvus
                         var videoMessage = new VideoMessage(Packet, reader);
                         videoMessage.Read();
                         break;
+
+                    case MessageType.DataMessage0:
+                    case MessageType.DataMessage3:
+                        var dataMessage = new DataMessage(Packet, reader);
+                        dataMessage.Read();
+                        break;
                 }
             }
         }
