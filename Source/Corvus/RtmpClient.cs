@@ -116,6 +116,11 @@ namespace Corvus
                         var commandMessage = new CommandMessage(Packet, reader);
                         commandMessage.Read();
                         break;
+
+                    case MessageType.AggregateMessage:
+                        var aggregate = new AggregateMessage(Packet, reader);
+                        aggregate.Read();
+                        break;
                 }
             }
         }
