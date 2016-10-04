@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 using Corvus.Chunking;
@@ -27,9 +26,12 @@ namespace Corvus.ProtocolMessages
                 Limit = LimitType.Dynamic;
         }
 
-        public override Task Write()
+        public override async Task Write()
         {
-            throw new NotImplementedException();
+            // TODO: Limit bandwidth
+            var writer = new ChunkWriter(Packet) {ChunkStreamId = ChunkStreamId.LowLevel, MessageType = MessageType.WindowAckSize};
+            writer.Write(Size);
+            await writer.Flush();
         }
     }
 }

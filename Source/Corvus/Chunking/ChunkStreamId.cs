@@ -16,6 +16,11 @@
 
         Video = 5,
 
-        Audio = 6
+        Audio = 6,
+
+        /// <summary>
+        ///     Random
+        /// </summary>
+        Random = 0xFF
     }
 }

@@ -38,8 +38,9 @@ namespace Corvus.Commands.NetConnection
 
         public override async Task Invoke()
         {
-            var chunk = new ChunkHeader(0, (byte) ChunkStreamId.HighLevel, (byte) MessageType.CommandMessage0, 0, GetBytes());
-            await Packet.SendAsync(chunk, GetBytes());
+            var writer = new ChunkWriter(Packet) {ChunkStreamId = ChunkStreamId.HighLevel, MessageType = MessageType.CommandMessage0};
+            writer.Write(GetBytes());
+            await writer.Flush();
         }
 
         public override byte[] GetBytes()

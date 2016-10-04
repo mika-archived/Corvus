@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Corvus.Chunking;
@@ -16,7 +17,7 @@ namespace Corvus.ProtocolMessages
 
         public override void Read()
         {
-            AckSize = BitHelper.ToInt32(Reader.Body);
+            AckSize = BitConverter.ToInt32(Reader.Body.Reverse().ToArray(), 0); // 4 bytes, BE
         }
 
         public override Task Write()

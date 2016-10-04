@@ -88,6 +88,7 @@ namespace Corvus
                     case MessageType.SetPeerBandwidth:
                         var setPeerBandwidth = new SetPeerBandwidth(Packet, reader);
                         setPeerBandwidth.Read();
+                        await setPeerBandwidth.Write();
                         break;
 
                     case MessageType.AudioMessage:
