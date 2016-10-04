@@ -2,7 +2,7 @@
 
 namespace Corvus.Chunking
 {
-    internal class ChunkBasicHeader
+    public class ChunkBasicHeader
     {
         public byte Format { get; }
         public ushort ChunkStreamId { get; }

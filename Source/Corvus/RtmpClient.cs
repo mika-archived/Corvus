@@ -57,54 +57,46 @@ namespace Corvus
                 var reader = new ChunkReader(Packet);
                 await reader.Read();
 
+                var messageType = reader.MessageHeader.MessageTypeId.ToMessageType();
+                ProtocolMessage message = null;
                 switch (reader.MessageHeader.MessageTypeId.ToMessageType())
                 {
                     case MessageType.SetChunkSize:
-                        var setChunkSize = new SetChunkSize(Packet, reader);
-                        setChunkSize.Read();
+                        message = new SetChunkSize(Packet, reader);
                         break;
 
                     case MessageType.AbortMessage:
-                        var abortMessage = new AbortMessage(Packet, reader);
-                        abortMessage.Read();
+                        message = new AbortMessage(Packet, reader);
                         break;
 
                     case MessageType.Acknowledgement:
                         // 通らないハズ...
-                        var ack = new Acknowledgement(Packet, reader);
-                        ack.Read();
+                        message = new Acknowledgement(Packet, reader);
                         break;
 
                     case MessageType.UserControlMessages:
-                        var userControl = new UserControlMessages(Packet, reader);
-                        userControl.Read();
+                        message = new UserControlMessages(Packet, reader);
                         break;
 
                     case MessageType.WindowAckSize:
-                        var windowAckSize = new WindowAcknowledgementSize(Packet, reader);
-                        windowAckSize.Read();
+                        message = new WindowAcknowledgementSize(Packet, reader);
                         break;
 
                     case MessageType.SetPeerBandwidth:
-                        var setPeerBandwidth = new SetPeerBandwidth(Packet, reader);
-                        setPeerBandwidth.Read();
-                        await setPeerBandwidth.Write();
+                        message = new SetPeerBandwidth(Packet, reader);
                         break;
 
                     case MessageType.AudioMessage:
-                        var audioMessage = new AudioMessage(Packet, reader);
-                        audioMessage.Read();
+                        message = new AudioMessage(Packet, reader);
                         break;
 
                     case MessageType.VideoMessage:
-                        var videoMessage = new VideoMessage(Packet, reader);
-                        videoMessage.Read();
+                        message = new VideoMessage(Packet, reader);
                         break;
 
                     case MessageType.DataMessage0:
                     case MessageType.DataMessage3:
-                        var dataMessage = new DataMessage(Packet, reader);
-                        dataMessage.Read();
+                        message = new DataMessage(Packet, reader);
                         break;
 
                     case MessageType.SharedObjectMsg0:
@@ -114,19 +106,21 @@ namespace Corvus
 
                     case MessageType.CommandMessage0:
                     case MessageType.CommandMessage3:
-                        var commandMessage = new CommandMessage(Packet, reader);
-                        commandMessage.Read();
+                        message = new CommandMessage(Packet, reader);
                         break;
 
                     case MessageType.AggregateMessage:
-                        var aggregate = new AggregateMessage(Packet, reader);
-                        aggregate.Read();
+                        message = new AggregateMessage(Packet, reader);
                         break;
 
                     case MessageType.NotSupport:
                         // TODO: Impl
                         break;
                 }
+                if (message == null)
+                    return;
+                message.Read();
+                OnMessageReceived?.Invoke(new RtmpMessageReceivedEvent(messageType, message));
             }
         }
 
@@ -222,5 +216,13 @@ namespace Corvus
         public string UserArguments { get; set; }
 
         #endregion Properties
+
+        #region Events
+
+        public delegate void RtmpMessageReceivedEventHandler(RtmpMessageReceivedEvent e);
+
+        public event RtmpMessageReceivedEventHandler OnMessageReceived;
+
+        #endregion
     }
 }

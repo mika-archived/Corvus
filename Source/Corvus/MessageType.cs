@@ -1,6 +1,6 @@
 ﻿namespace Corvus
 {
-    internal enum MessageType : byte
+    public enum MessageType : byte
     {
         /// <summary>
         ///     Set Chunk Size (1)

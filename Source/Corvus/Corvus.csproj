@@ -115,6 +115,7 @@
     <Compile Include="Chunking\ChunkMessageHeader.cs" />
     <Compile Include="Chunking\ChunkReader.cs" />
     <Compile Include="Chunking\ChunkStreamId.cs" />
+    <Compile Include="Chunking\ChunkWriter.cs" />
     <Compile Include="Clients\DefaultRtmpClient.cs" />
     <Compile Include="Clients\NicoLiveRtmpClient.cs" />
     <Compile Include="Commands\ErrorCommand.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="RtmpClient.cs" />
     <Compile Include="RtmpDump.cs" />
     <Compile Include="RtmpInvalidFormatException.cs" />
+    <Compile Include="RtmpMessageReceivedEvent.cs" />
     <Compile Include="Timestamp.cs" />
     <Compile Include="VideoCodec.cs" />
   </ItemGroup>

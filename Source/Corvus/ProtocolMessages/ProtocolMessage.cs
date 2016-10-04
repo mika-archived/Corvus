@@ -7,7 +7,7 @@ namespace Corvus.ProtocolMessages
     /// <summary>
     ///     Protocol Control Messages
     /// </summary>
-    internal abstract class ProtocolMessage
+    public abstract class ProtocolMessage
     {
         protected Packet Packet { get; }
         protected ChunkReader Reader { get; }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Corvus.Chunking
 {
-    internal class ChunkMessageHeader
+    public class ChunkMessageHeader
     {
         public byte Format { get; }
         public uint Length { get; }

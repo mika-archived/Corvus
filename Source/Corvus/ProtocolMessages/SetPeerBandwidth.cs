@@ -28,7 +28,6 @@ namespace Corvus.ProtocolMessages
 
         public override async Task Write()
         {
-            // TODO: Limit bandwidth
             var writer = new ChunkWriter(Packet) {ChunkStreamId = ChunkStreamId.LowLevel, MessageType = MessageType.WindowAckSize};
             writer.Write(Size);
             await writer.Flush();

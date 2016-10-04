@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Corvus.Chunking
 {
-    internal class ChunkReader
+    public class ChunkReader
     {
         private static ChunkMessageHeader _lastHeader;
         private readonly Packet _packet;
