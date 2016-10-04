@@ -121,6 +121,10 @@ namespace Corvus
                         var aggregate = new AggregateMessage(Packet, reader);
                         aggregate.Read();
                         break;
+
+                    case MessageType.NotSupport:
+                        // TODO: Impl
+                        break;
                 }
             }
         }
